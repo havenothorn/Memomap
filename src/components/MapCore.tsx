@@ -44,12 +44,52 @@ const MapCore = ({
   useEffect(() => {
     if (!mapContainer.current) return;
     if (mapRef.current) return;
-    mapRef.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: "https://tiles.stadiamaps.com/styles/osm_bright.json",
-      center: [127.5, 36.5],
-      zoom: 6.2,
-    });
+    // Load style JSON so we can prefer Korean labels (name:ko) when available.
+    const styleUrl = "https://tiles.stadiamaps.com/styles/osm_bright.json";
+    const initMapWithStyle = async () => {
+      try {
+        const res = await fetch(styleUrl);
+        const styleJson = await res.json();
+
+        // Modify symbol layers to prefer Korean labels when possible.
+        if (styleJson && Array.isArray(styleJson.layers)) {
+          styleJson.layers = styleJson.layers.map((layer: any) => {
+            // Only change symbol text fields where a text-field is present
+            // and the layer type is symbol.
+            if (
+              layer.type === "symbol" &&
+              layer.layout &&
+              layer.layout["text-field"]
+            ) {
+              // Replace text-field with coalesce(get('name:ko'), get('name')) to prefer Korean name.
+              layer.layout["text-field"] = [
+                "coalesce",
+                ["get", "name:ko"],
+                layer.layout["text-field"],
+              ];
+            }
+            return layer;
+          });
+        }
+
+        mapRef.current = new maplibregl.Map({
+          container: mapContainer.current!,
+          style: styleJson,
+          center: [127.5, 36.5],
+          zoom: 6.2,
+        });
+      } catch (err) {
+        // Fallback to original style url if fetch or parsing fails
+        mapRef.current = new maplibregl.Map({
+          container: mapContainer.current!,
+          style: styleUrl,
+          center: [127.5, 36.5],
+          zoom: 6.2,
+        });
+      }
+    };
+
+    initMapWithStyle();
   }, []);
 
   useEffect(() => {
