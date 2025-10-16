@@ -17,16 +17,7 @@ const Header = () => (
       boxSizing: "border-box",
     }}
   >
-    <div
-      style={{
-        fontWeight: 700,
-        fontSize: 20,
-        color: "#0d560dff",
-        letterSpacing: 1,
-      }}
-    >
-      MEMOMAP
-    </div>
+    <img src="/logo.png" alt="MemoMap Logo" style={{ height: 40 }} />
     <NavMenu />
   </header>
 );
