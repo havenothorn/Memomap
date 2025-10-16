@@ -10,13 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/maplibre-gl": "^1.14.0",
+    "@googlemaps/js-api-loader": "^2.0.1",
+    "@react-google-maps/api": "^2.20.7",
+    "@tanstack/react-router": "^1.133.3",
+    "@tanstack/router": "0.0.1-beta.53",
+    "@types/google.maps": "^3.58.1",
     "maplibre-gl": "^5.9.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
+    "@tanstack/router-devtools": "^1.133.3",
+    "@tanstack/router-plugin": "^1.133.3",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
