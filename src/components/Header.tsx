@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 const Header = () => (
   <header
     style={{
@@ -24,8 +26,8 @@ const Header = () => (
 
 const NavMenu = () => (
   <nav style={{ display: "flex", gap: 24 }}>
-    <a
-      href="#support"
+    <Link
+      to="/support"
       style={{
         color: "#444",
         fontWeight: 500,
@@ -34,9 +36,9 @@ const NavMenu = () => (
       }}
     >
       ☕ Support
-    </a>
-    <a
-      href="#about"
+    </Link>
+    <Link
+      to="/about"
       style={{
         color: "#444",
         fontWeight: 500,
@@ -45,7 +47,7 @@ const NavMenu = () => (
       }}
     >
       개발자 소개
-    </a>
+    </Link>
   </nav>
 );
 

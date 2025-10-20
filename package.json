@@ -10,11 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "^2.0.1",
-    "@react-google-maps/api": "^2.20.7",
     "@tanstack/react-router": "^1.133.3",
     "@tanstack/router": "0.0.1-beta.53",
-    "@types/google.maps": "^3.58.1",
+    "@vis.gl/react-google-maps": "^1.5.5",
+    "clsx": "^2.1.1",
     "maplibre-gl": "^5.9.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"

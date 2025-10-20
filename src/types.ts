@@ -1,17 +1,9 @@
-export type Category = "나" | "함께";
+export type Category = "visited" | "wishlist" | "recommended";
 
-export interface Place {
+export interface PlacePin {
   id: string;
-  name: string;
-  address: string;
-  lat: number;
-  lng: number;
+  title: string;
+  memo?: string;
   category: Category;
-}
-
-export interface SearchResult {
-  name: string;
-  address: string;
-  lat: number;
-  lng: number;
+  position: google.maps.LatLngLiteral;
 }
