@@ -27,7 +27,6 @@ export const ResultList = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: 8,
             padding: 12,
             borderTop: i === 0 ? "none" : "1px solid #eee",
             background: "#fff",
@@ -51,7 +50,8 @@ export const ResultList = ({
                 marginRight: "10px",
               }}
             >
-              {r.name}
+              {r.name?.slice(0, 15) +
+                (r.name && r.name.length > 15 ? "..." : "")}
             </span>
             {r.formatted_address && (
               <span
@@ -59,10 +59,6 @@ export const ResultList = ({
                   color: "#6b7280",
                   fontSize: "12px",
                   alignItems: "center",
-                  maxWidth: "60%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
                 }}
               >
                 {r.formatted_address}

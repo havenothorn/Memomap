@@ -13,7 +13,9 @@ export const SearchOverlay = () => {
   );
   const serviceRef = useRef<google.maps.places.PlacesService | null>(null);
   const [open, setOpen] = useState(true);
-  const [selectedCats, setSelectedCats] = useState<MarkerCategory[]>(["위시"]);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [pendingPlace, setPendingPlace] =
+    useState<google.maps.places.PlaceResult | null>(null);
 
   useEffect(() => {
     if (map && placesLib && !serviceRef.current) {
@@ -31,7 +33,7 @@ export const SearchOverlay = () => {
       },
       (res, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK && res) {
-          setResults(res.slice(0, 8));
+          setResults(res.slice(0, 10));
         } else {
           setResults([]);
         }
@@ -78,35 +80,6 @@ export const SearchOverlay = () => {
             outline: "none",
           }}
         />
-        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-          {(Object.keys(CATEGORY_META) as MarkerCategory[]).map((cat) => (
-            <label
-              key={cat}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                cursor: "pointer",
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={selectedCats.includes(cat)}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedCats((prev) => [...prev, cat]);
-                  } else {
-                    setSelectedCats((prev) => prev.filter((c) => c !== cat));
-                  }
-                }}
-                style={{ margin: 0 }}
-              />
-              <span style={{ fontSize: "12px" }}>
-                {CATEGORY_META[cat].emoji}
-              </span>
-            </label>
-          ))}
-        </div>
         <button
           onClick={doSearch}
           style={{
@@ -140,21 +113,140 @@ export const SearchOverlay = () => {
             map?.panTo(position);
           }}
           onRegister={(r) => {
-            const loc = r.geometry?.location;
-            if (!loc) return;
-            const position = { lat: loc.lat(), lng: loc.lng() };
-            window.dispatchEvent(
-              new CustomEvent("memomap:add-marker", {
-                detail: {
-                  position,
-                  title: r.name ?? "제목 없음",
-                  categories: selectedCats,
-                },
-              })
-            );
-            setResults([]);
+            setPendingPlace(r);
+            setShowCategoryModal(true);
           }}
         />
+      )}
+
+      {/* 카테고리 선택 모달 */}
+      {showCategoryModal && pendingPlace && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+          onClick={() => {
+            setShowCategoryModal(false);
+            setPendingPlace(null);
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 12,
+              padding: 24,
+              maxWidth: 400,
+              width: "90%",
+              boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3
+              style={{
+                margin: "0 0 16px 0",
+                fontSize: "18px",
+                fontWeight: 600,
+              }}
+            >
+              카테고리 선택
+            </h3>
+            <p
+              style={{
+                margin: "0 0 20px 0",
+                color: "#6b7280",
+                fontSize: "14px",
+              }}
+            >
+              "{pendingPlace.name}"을(를) 어떤 카테고리에 추가하시겠습니까?
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {(Object.keys(CATEGORY_META) as MarkerCategory[]).map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    const loc = pendingPlace.geometry?.location;
+                    if (!loc) return;
+                    const position = { lat: loc.lat(), lng: loc.lng() };
+                    window.dispatchEvent(
+                      new CustomEvent("memomap:add-marker", {
+                        detail: {
+                          position,
+                          title: pendingPlace.name ?? "제목 없음",
+                          categories: [cat],
+                        },
+                      })
+                    );
+                    setShowCategoryModal(false);
+                    setPendingPlace(null);
+                    setResults([]);
+                  }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "12px 16px",
+                    background: "#f9fafb",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: 8,
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    transition: "all 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#f3f4f6";
+                    e.currentTarget.style.borderColor = "#d1d5db";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "#f9fafb";
+                    e.currentTarget.style.borderColor = "#e5e7eb";
+                  }}
+                >
+                  <span style={{ fontSize: "20px" }}>
+                    {CATEGORY_META[cat].emoji}
+                  </span>
+                  <span>{cat}</span>
+                </button>
+              ))}
+            </div>
+
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              <button
+                onClick={() => {
+                  setShowCategoryModal(false);
+                  setPendingPlace(null);
+                }}
+                style={{
+                  padding: "8px 16px",
+                  background: "#6b7280",
+                  color: "#fff",
+                  border: 0,
+                  borderRadius: 6,
+                  cursor: "pointer",
+                  fontSize: "14px",
+                }}
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
