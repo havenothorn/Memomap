@@ -181,18 +181,20 @@ export const InteractiveLayer = () => {
       infoWindowRef.current.open({ map: map!, shouldFocus: false } as any);
     }
 
-    const closeButton = document.querySelector(".gm-style-iw-chr");
-    const iwd = document.querySelector(".gm-style-iw-d");
-    const iwc = document.querySelector(".gm-style-iw-c");
-    if (iwc) {
-      (iwc as HTMLElement).style.padding = "12px";
-    }
-    if (iwd) {
-      (iwd as HTMLElement).style.overflow = "hidden";
-    }
-    if (closeButton) {
-      (closeButton as HTMLElement).style.display = "none";
-    }
+    setTimeout(() => {
+      const closeButton = document.querySelector(".gm-style-iw-chr");
+      const iwd = document.querySelector(".gm-style-iw-d");
+      const iwc = document.querySelector(".gm-style-iw-c");
+      if (iwc) {
+        (iwc as HTMLElement).style.padding = "12px";
+      }
+      if (iwd) {
+        (iwd as HTMLElement).style.overflow = "hidden";
+      }
+      if (closeButton) {
+        (closeButton as HTMLElement).style.display = "none";
+      }
+    });
   };
 
   const openContextMenu = (marker: AppMarker, event: MouseEvent) => {

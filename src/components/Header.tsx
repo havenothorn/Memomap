@@ -19,7 +19,7 @@ const Header = () => (
       boxSizing: "border-box",
     }}
   >
-    <img src="/logo.png" alt="MemoMap Logo" style={{ height: 40 }} />
+    <h1 style={{ fontSize: "22px" }}>메모맵</h1>
     <NavMenu />
   </header>
 );

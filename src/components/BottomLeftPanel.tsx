@@ -64,6 +64,7 @@ export const BottomLeftPanel = () => {
                   : "1px solid #e5e7eb",
                 background: filters?.[cat] ? "#f8fafc" : "#fff",
                 color: "#111827",
+                fontSize: "12px",
               }}
             >
               <span>{CATEGORY_META[cat].emoji}</span>

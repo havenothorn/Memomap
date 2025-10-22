@@ -50,7 +50,7 @@ export const SearchOverlay = () => {
         display: "flex",
         flexDirection: "column",
         gap: 8,
-        maxWidth: 520,
+        maxWidth: 560,
       }}
     >
       <div
@@ -75,6 +75,7 @@ export const SearchOverlay = () => {
             border: "1px solid #e5e7eb",
             borderRadius: 6,
             padding: 10,
+            outline: "none",
           }}
         />
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
@@ -100,7 +101,9 @@ export const SearchOverlay = () => {
                 }}
                 style={{ margin: 0 }}
               />
-              <span>{CATEGORY_META[cat].emoji}</span>
+              <span style={{ fontSize: "12px" }}>
+                {CATEGORY_META[cat].emoji}
+              </span>
             </label>
           ))}
         </div>
@@ -108,10 +111,9 @@ export const SearchOverlay = () => {
           onClick={doSearch}
           style={{
             padding: "10px 12px",
+            background: "none",
+            border: "1px solid #e5e7eb",
             borderRadius: 6,
-            background: "#111827",
-            color: "#fff",
-            border: 0,
           }}
         >
           검색
@@ -120,14 +122,11 @@ export const SearchOverlay = () => {
           onClick={() => setOpen((v) => !v)}
           title={open ? "검색 결과 숨기기" : "검색 결과 보이기"}
           style={{
-            padding: "10px 12px",
-            borderRadius: 6,
-            background: "#e5e7eb",
-            color: "#111827",
+            background: "none",
             border: 0,
           }}
         >
-          {open ? "접기" : "펼치기"}
+          {open ? "▲" : "▼"}
         </button>
       </div>
 

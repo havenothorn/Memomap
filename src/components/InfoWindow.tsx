@@ -76,12 +76,11 @@ export const createInfoWindowContent = ({
   const memoText = document.createElement("div");
   memoText.textContent = marker.memo || "메모를 추가할 수 있어요";
   memoText.style.fontSize = "14px";
-  memoText.style.color = marker.memo ? "#374151" : "#9ca3af";
-  memoText.style.minHeight = "20px";
+  memoText.style.color = "#374151";
   memoText.style.padding = "4px";
-  memoText.style.border = "1px solid #e5e7eb";
+  memoText.style.border = marker.memo ? "none" : "1px solid #e5e7eb";
   memoText.style.borderRadius = "4px";
-  memoText.style.backgroundColor = "#f9fafb";
+  memoText.style.backgroundColor = marker.memo ? "#fff " : "#f9fafb";
   memoContainer.appendChild(memoText);
 
   const memoBtn = document.createElement("button");

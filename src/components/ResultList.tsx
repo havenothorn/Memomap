@@ -16,6 +16,8 @@ export const ResultList = ({
         borderRadius: 8,
         boxShadow: "0 2px 8px #0002",
         overflow: "visible",
+        width: "100%",
+        maxWidth: "600px",
       }}
     >
       {results.map((r, i) => (
@@ -25,7 +27,6 @@ export const ResultList = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: "100%",
             gap: 8,
             padding: 12,
             borderTop: i === 0 ? "none" : "1px solid #eee",
@@ -35,21 +36,29 @@ export const ResultList = ({
           <button
             onClick={() => onPick(r)}
             style={{
-              flex: 1,
-              minWidth: 0,
-              textAlign: "left",
+              display: "flex",
+              alignItems: "center",
               background: "transparent",
               border: 0,
               cursor: "pointer",
             }}
           >
-            <span style={{ fontWeight: 600 }}>{r.name}</span>
+            <span
+              style={{
+                fontSize: "14px",
+                lineHeight: "16px",
+                fontWeight: 600,
+                marginRight: "10px",
+              }}
+            >
+              {r.name}
+            </span>
             {r.formatted_address && (
               <span
                 style={{
                   color: "#6b7280",
-                  marginLeft: 8,
-                  display: "inline-block",
+                  fontSize: "12px",
+                  alignItems: "center",
                   maxWidth: "60%",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -80,4 +89,3 @@ export const ResultList = ({
     </div>
   );
 };
-
