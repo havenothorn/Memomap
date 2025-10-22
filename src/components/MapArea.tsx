@@ -2,7 +2,6 @@ import {
   AdvancedMarker,
   APIProvider,
   Map,
-  Pin,
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
@@ -61,9 +60,9 @@ const CATEGORY_META: Record<
   겨울: {
     label: "겨울",
     emoji: "❄️",
-    color: "#60a5fa",
-    border: "#1e3a8a",
-    glyph: "#dbeafe",
+    color: "#ffffffff",
+    border: "#515151ff",
+    glyph: "#d1f8ffff",
   },
 };
 
@@ -729,25 +728,30 @@ function InteractiveLayer() {
             }}
           >
             <div style={{ position: "relative" }}>
-              <Pin
-                background={CATEGORY_META[m.categories[0]].color}
-                borderColor={CATEGORY_META[m.categories[0]].border}
-                glyphColor={CATEGORY_META[m.categories[0]].glyph}
+              <div
+                style={{
+                  width: "12px",
+                  height: "12px",
+                  borderRadius: "50%",
+                  background: CATEGORY_META[m.categories[0]].color,
+                  border: `2px solid ${CATEGORY_META[m.categories[0]].border}`,
+                  cursor: "pointer",
+                }}
               />
               {m.categories.length > 1 && (
                 <div
                   style={{
                     position: "absolute",
-                    top: "-8px",
-                    right: "-8px",
-                    width: "16px",
-                    height: "16px",
+                    top: "-6px",
+                    right: "-6px",
+                    width: "12px",
+                    height: "12px",
                     borderRadius: "50%",
                     background: CATEGORY_META[m.categories[1]].color,
                     border: `2px solid ${
                       CATEGORY_META[m.categories[1]].border
                     }`,
-                    fontSize: "10px",
+                    fontSize: "8px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
