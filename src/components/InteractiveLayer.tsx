@@ -168,6 +168,9 @@ export const InteractiveLayer = () => {
     const container = createInfoWindowContent({
       marker,
       onMemoUpdate: handleMemoUpdate,
+      onClose: () => {
+        infoWindowRef.current?.close();
+      },
     });
 
     infoWindowRef.current.setContent(container);
@@ -176,6 +179,19 @@ export const InteractiveLayer = () => {
     } else {
       infoWindowRef.current.setPosition(marker.position);
       infoWindowRef.current.open({ map: map!, shouldFocus: false } as any);
+    }
+
+    const closeButton = document.querySelector(".gm-style-iw-chr");
+    const iwd = document.querySelector(".gm-style-iw-d");
+    const iwc = document.querySelector(".gm-style-iw-c");
+    if (iwc) {
+      (iwc as HTMLElement).style.padding = "12px";
+    }
+    if (iwd) {
+      (iwd as HTMLElement).style.overflow = "hidden";
+    }
+    if (closeButton) {
+      (closeButton as HTMLElement).style.display = "none";
     }
   };
 
