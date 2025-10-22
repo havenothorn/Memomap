@@ -671,6 +671,9 @@ function InteractiveLayer() {
     setTimeout(() => document.addEventListener("click", closeMenu), 0);
   };
 
+  console.log("API Key:", import.meta.env.VITE_GOOGLE_MAPS_API_KEY);
+  console.log("Map ID:", import.meta.env.VITE_GOOGLE_MAPS_ID);
+
   return (
     <>
       {markers
